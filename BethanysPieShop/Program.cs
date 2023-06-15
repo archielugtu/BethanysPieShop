@@ -1,4 +1,24 @@
+using BethanysPieShop.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+/*
+ * DEPENDENCY INJECTION OF SERVICES
+ * To implement dependency injection, we need to configure a DI container with classes that is participating in DI. 
+ * DI Container has to decide whether to return a new instance of the service or provide an existing instance. 
+ * In startup class, we perform this activity on ConfigureServices method.
+ * 
+ * The lifetime of the service depends on when the dependency is instantiated and how long it lives. And lifetime depends on how we have registered those services.
+ * 
+ * 3 methods that allow us to add services to the request pipeline:
+ * 
+ * .AddScoped() - adds a single instance of that service which will live throughout the duration of the request being handled (i.e,. singleton per request) 
+ * .AddTransient() - Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
+ * .AddSingleton() - Singleton lifetime services are created the first time they are requested (or when ConfigureServices is run if you specify an instance there) and then every subsequent request will use the same instance.
+ * */
+
+builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+builder.Services.AddScoped<IPieRepository, MockPieRepository>();
 
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
 builder.Services.AddControllersWithViews();
