@@ -11,8 +11,8 @@ namespace BethanysPieShop.Controllers
 
         public PieController(IPieRepository pieRepository, ICategoryRepository categoryRepository)
         {
-            // This is an example of constructor injection since we have already registered both of these reposities in Program.cs at the start of your program.
-            // Therefore the instance of these reposities will get injected in the constructor and we can set these values to the private fields in this controller.
+            // This is an example of constructor injection since we have already registered both of these reposities in Program.cs at the start of the program.
+            // Therefore the instance of these reposities will get injected into the constructor (automatically) and we can use these values to set the private fields in this controller.
             _pieRepository = pieRepository;
             _categoryRepository = categoryRepository;
         }

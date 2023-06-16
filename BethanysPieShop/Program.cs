@@ -18,8 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
  * .AddSingleton() - Singleton lifetime services are created the first time they are requested (or when ConfigureServices is run if you specify an instance there) and then every subsequent request will use the same instance.
  * */
 
-builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
-builder.Services.AddScoped<IPieRepository, MockPieRepository>();
+// Used Mock repositories before we implemented db functionality (i.e., EF Core) in our app
+/*builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+builder.Services.AddScoped<IPieRepository, MockPieRepository>();*/
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IPieRepository, PieRepository>();
 
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
 builder.Services.AddControllersWithViews();
