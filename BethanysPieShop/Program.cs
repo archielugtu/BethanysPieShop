@@ -28,7 +28,8 @@ builder.Services.AddScoped<IPieRepository, PieRepository>();
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
 builder.Services.AddControllersWithViews();
 
-// Adds EF Core services using an extension method
+// Adds Entity Framework Core services using an extension method
+// This connects the BethanysPieShopDbContext class to your code by using the connection string you have specified in the appsettings.json
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]); // this is the concatenation of the ConnectionStrings:BethanysPieShopDbContextConnection in appsettings.json
 });
@@ -45,8 +46,17 @@ app.UseStaticFiles();
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
-// This will set some defaults used in MVC to route the views/pages that we're going to have
-app.MapDefaultControllerRoute();
+/* This is an endpoint middleware which will add support to routing to controller and controller actions/methods
+ * MapDefaultControllerRoute() middleware is the same as if you manually add this:
+ * app.MapControllerRoute(
+ *     name: "default",
+ *     pattern: "{controller=Home}/{action=Index}/{id?}");
+ * 
+ * This middleware uses the following default controller route: "{controller=Home}/{action=Index}/{id?}"
+ * So if a controller or action is not defined then the default values are Home and Index respectively.
+*/
+app.MapDefaultControllerRoute(); 
+
 
 // populate database with seed data, if there are no data in the tables
 DbInitializer.Seed(app);
