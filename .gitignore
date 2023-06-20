@@ -23,3 +23,5 @@ CodeAnalyst/
 # Can add this in the future
 #appsettings.json
 #appsettings.Development.json
+*.v2
+*.vsidx
