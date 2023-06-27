@@ -6,6 +6,7 @@
     <title>Bethany's Pie Shop</title>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans' rel='stylesheet' type='text/css'>
     <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib//popper.js/umd/popper.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <link href="~/css/site.css" rel="stylesheet" />
     <base href="/" />
@@ -28,13 +29,9 @@
 
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Pie" asp-action="List" class="nav-link">Pies</a>
-                            </li>
+                            <vc:category-menu></vc:category-menu>
                         </ul>
+                        <vc:shopping-cart-summary></vc:shopping-cart-summary>
                     </div>
                 </div>
             </nav>

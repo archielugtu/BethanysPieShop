@@ -20,10 +20,33 @@ namespace BethanysPieShop.Controllers
         /*
          * IActionResult is the overarching interface for all different types of results implement
          */
-        public IActionResult List()
+       /* public IActionResult List()
         {
             PieListViewModel pieListViewModel = new(_pieRepository.AllPies, "All Yummy Pies");
             return View(pieListViewModel);
+        }*/
+
+        public ViewResult List(string category)
+        {
+            IEnumerable<Pie> pies;
+            string? currentCategory;
+
+            if (string.IsNullOrEmpty(category))
+            {
+                pies = _pieRepository.AllPies.OrderBy(p => p.Name);
+                currentCategory = "All pies";
+            }
+            else
+            {
+                pies = _pieRepository.AllPies.Where(p => p.Category.CategoryName == category)
+                    .OrderBy(p => p.PieId);
+                currentCategory = _categoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category)?.CategoryName;
+            }
+
+            return View(new PieListViewModel(pies, currentCategory));
+
+
+
         }
 
         public IActionResult Details(int id)
