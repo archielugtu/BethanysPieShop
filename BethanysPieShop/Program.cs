@@ -21,6 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
  * .AddScoped() - adds a single instance of that service which will live throughout the duration of the request being handled (i.e,. singleton per request) 
  * .AddTransient() - Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
  * .AddSingleton() - Singleton lifetime services are created the first time they are requested (or when ConfigureServices is run if you specify an instance there) and then every subsequent request will use the same instance.
+ * 
+ * NOTE: The order in which we add the services doesn't matter, but it's the order of where we use it in the middlware DOES matter.
  * */
 
 // Used Mock repositories before we implemented db functionality (i.e., EF Core) in our app
@@ -38,6 +40,7 @@ builder.Services.AddHttpContextAccessor(); // this is added to be able to use IH
 
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // registers razor pages into the Services container
 
 // Adds Entity Framework Core services using an extension method
 // This connects the BethanysPieShopDbContext class to your code by using the connection string you have specified in the appsettings.json
@@ -70,8 +73,8 @@ if (app.Environment.IsDevelopment())
  * This middleware uses the following default controller route: "{controller=Home}/{action=Index}/{id?}"
  * So if a controller or action is not defined then the default values are Home and Index respectively.
 */
-app.MapDefaultControllerRoute(); 
-
+app.MapDefaultControllerRoute();
+app.MapRazorPages(); // brings in support for razor pages. This razor pagess is what enables the PageModel.
 
 // populate database with seed data, if there are no data in the tables
 DbInitializer.Seed(app);
