@@ -40,7 +40,7 @@ builder.Services.AddHttpContextAccessor(); // this is added to be able to use IH
 
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages(); // registers razor pages into the Services container
+builder.Services.AddRazorPages(); // registers Razor Pages into the Services container
 
 // Adds Entity Framework Core services using an extension method
 // This connects the BethanysPieShopDbContext class to your code by using the connection string you have specified in the appsettings.json
