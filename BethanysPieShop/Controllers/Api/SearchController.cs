@@ -36,5 +36,17 @@ namespace BethanysPieShop.Controllers.Api
 
          return Ok(_pieRepository.AllPies.Where(p => p.PieId == id));
       }
+
+      [HttpPost]
+      public IActionResult SearchPies([FromBody] string searchQuery)
+      {
+         IEnumerable<Pie> pies = new List<Pie>();
+         if(!string.IsNullOrEmpty(searchQuery))
+         {
+            pies = _pieRepository.SearchPies(searchQuery);
+         }
+         // This explicitly says that you want the pies in JSON format and have the status code of 200
+         return new JsonResult(pies);
+      }
    }
 }
