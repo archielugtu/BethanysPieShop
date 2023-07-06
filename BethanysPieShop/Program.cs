@@ -1,5 +1,6 @@
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,14 +40,23 @@ builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor(); // this is added to be able to use IHttpContextAccessor in the GetCart() method 
 
 // Lets our app know about MVC, by default they don't know about code which uses MVC framework
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+   .AddJsonOptions(options =>
+   {
+      //When serializing pies ASP.NET Core will enter an infinite loop because Pie references a Category and a Category references
+      //a list of Pies, this goes back and fourth, and thus creating an infinite loop.
+      //ReferenceHandler.IgnoreCycle will ignore that loop and solves the problem
+      options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+   });
 builder.Services.AddRazorPages(); // registers Razor Pages into the Services container
-
 // Adds Entity Framework Core services using an extension method
 // This connects the BethanysPieShopDbContext class to your code by using the connection string you have specified in the appsettings.json
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]); // this is the concatenation of the ConnectionStrings:BethanysPieShopDbContextConnection in appsettings.json
 });
+
+//WEB API - adds controller functionality to our app if we want to build just a web API. This means other things such as views won't be added as we don't need it for building web API
+//builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -75,6 +85,9 @@ if (app.Environment.IsDevelopment())
 */
 app.MapDefaultControllerRoute();
 app.MapRazorPages(); // brings in support for razor pages. This razor pagess is what enables the PageModel.
+
+//WEB API - Applies routing functionality to our middleware 
+//app.MapControllers();
 
 // populate database with seed data, if there are no data in the tables
 DbInitializer.Seed(app);
