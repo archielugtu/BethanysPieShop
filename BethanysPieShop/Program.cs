@@ -74,8 +74,8 @@ var app = builder.Build();
 // It also shortcircuits the requests meaning the request will be stopped and not go to the next middleware anymore, a response is sent immediately
 app.UseStaticFiles();
 app.UseSession(); // brings in support for sessions. Sessions require middleware to use it, so add this method call.
-app.UseAuthentication(); // Adds authenticatio middleware!
-
+app.UseAuthentication(); // Adds authentication middleware!
+app.UseAuthorization(); // Adds autheorization to our middleware from the Identity framwork
  // Allows app to show an exception page on the browser page when app hits an exception in development mode (for DEVs only).
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();

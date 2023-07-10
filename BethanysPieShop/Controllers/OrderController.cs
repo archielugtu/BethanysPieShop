@@ -1,8 +1,11 @@
 ﻿using BethanysPieShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BethanysPieShop.Controllers
 {
+    // Add this attribute ensures users are logged in before they can access any of the actions defined in this controller
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
