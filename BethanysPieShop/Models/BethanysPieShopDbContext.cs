@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BethanysPieShop.Models
 {
@@ -9,7 +10,14 @@ namespace BethanysPieShop.Models
      * NOTE: appsettings.json is a file that is read out automatically when Program.cs is executed.
      * In appsettings.json - ConnectionStrings is a known value in the asp.net, and then then BethanysPieShopDbContextConnection will be the name of your connection string.
      */
-    public class BethanysPieShopDbContext : DbContext
+
+    // DbContext comes from the EntityFramework Core
+    //public class BethanysPieShopDbContext : DbContext
+    
+    // IdentityDbContext is an extension of DbContext that allows the inheriting context to know about users and roles which Identity framework provides for us!
+    // Performed migration after inheriting from IdentityDbContext. Since this is from the Identity framework, this will add in a bunch of tables which will help us perform 
+    // authentication and authorization funtionalities
+    public class BethanysPieShopDbContext : IdentityDbContext
     {
         public BethanysPieShopDbContext(DbContextOptions<BethanysPieShopDbContext> options): base(options) { }
 

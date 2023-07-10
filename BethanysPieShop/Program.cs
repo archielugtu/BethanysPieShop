@@ -1,8 +1,10 @@
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("BethanysPieShopDbContextConnection") ?? throw new InvalidOperationException("Connection string 'BethanysPieShopDbContextConnection' not found.");
 
 
 // #####################################################################################
@@ -55,6 +57,9 @@ builder.Services.AddDbContext<BethanysPieShopDbContext>(options => {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]); // this is the concatenation of the ConnectionStrings:BethanysPieShopDbContextConnection in appsettings.json
 });
 
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<BethanysPieShopDbContext>();
+
 //WEB API - adds controller functionality to our app if we want to build just a web API. This means other things such as views won't be added as we don't need it for building web API
 //builder.Services.AddControllers();
 
@@ -69,6 +74,7 @@ var app = builder.Build();
 // It also shortcircuits the requests meaning the request will be stopped and not go to the next middleware anymore, a response is sent immediately
 app.UseStaticFiles();
 app.UseSession(); // brings in support for sessions. Sessions require middleware to use it, so add this method call.
+app.UseAuthentication(); // Adds authenticatio middleware!
 
  // Allows app to show an exception page on the browser page when app hits an exception in development mode (for DEVs only).
 if (app.Environment.IsDevelopment())

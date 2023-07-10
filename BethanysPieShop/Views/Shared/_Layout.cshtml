@@ -46,12 +46,14 @@
                             </li>
                         </ul>
                         <vc:shopping-cart-summary></vc:shopping-cart-summary>
+                        <partial name="_LoginPartial" /> @*Adds register and login functionality in our page at the nav bar heading of our website*@
                     </div>
                 </div>
             </nav>
         </header>
 
         @RenderBody()
+        @RenderSection("Scripts", required: false) @*Adding this ensures that the razor pages such as login and register which define a section called 'Scripts' can include this at this place in the layout*@
     </div>
 </body>
 </html>
