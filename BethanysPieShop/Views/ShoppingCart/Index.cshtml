@@ -7,6 +7,12 @@
 
 <div class="row gx-3">
     <div class="col-8">
+        @if(Model.ShoppingCart.ShoppingCartItems.Count() == 0)
+        {
+            <span>Looks empty...</span>
+            <a asp-controller="Pie" asp-action="List" asp-route-category="">Explore more pies!</a>
+        }
+        
         @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
         {
             <div class="card shopping-cart-card mb-2">
@@ -21,6 +27,10 @@
                                 <h6>@line.Pie.ShortDescription</h6>
                                 <h2>@line.Pie.Price.ToString("c")</h2>
                             </div>
+                            <a class="btn btn-secondary"
+                               asp-controller="ShoppingCart"
+                               asp-action="RemoveFromShoppingCart"
+                               asp-route-pieId="@line.Pie.PieId">Remove</a>
                         </div>
                     </div>
                 </div>
