@@ -1,5 +1,5 @@
 # BethanysPieShop
-Bethanys Pie shop built with ASP.NET Core MVC & Web API and EFC
+Bethanys Pie shop built with ASP.NET Core MVC, Web API, EFC, & JS
 ## Live Demo
 * Click on this link [here](https://proshop-site.herokuapp.com/)
 
